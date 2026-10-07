@@ -129,6 +129,10 @@ section{padding:clamp(8px,1.2vw,14px) 0}
 .field input:focus,.field textarea:focus{border-color:var(--accent); background:#fff; outline:none}
 .field textarea{min-height:140px; resize:vertical}
 .form .btn{justify-self:start}
+.form .btn:disabled{opacity:.6; cursor:wait}
+.form-status{margin:0; padding:14px 16px; border-radius:14px; font-weight:600}
+.form-status.ok{background:var(--mint)}
+.form-status.err{background:var(--peach)}
 .small{font-size:.92rem; color:var(--muted)}
 
 /* footer */

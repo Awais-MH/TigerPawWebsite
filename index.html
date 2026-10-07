@@ -130,13 +130,18 @@
       <p style="margin-top:20px">Tell us a little about your business and what's taking up your time. We'll get back to you within one business day to find a time that suits.</p>
       <p class="small">No obligation and no sales pitch. If AI isn't a good fit for you yet, we'll tell you.</p>
     </div>
-    <form class="form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <form class="form" id="contact-form" action="https://formsubmit.co/shawais@gmail.com" method="POST">
+      <input type="hidden" name="_subject" value="New free chat booking - TigerPaw website">
+      <input type="hidden" name="_template" value="table">
+      <input type="hidden" name="_captcha" value="false">
+      <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
       <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
       <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
       <div class="field"><label for="phone">Phone (optional)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
       <div class="field"><label for="business">Business name and type</label><input id="business" name="business" required></div>
       <div class="field"><label for="message">What would you like to spend less time on?</label><textarea id="message" name="message" required></textarea></div>
       <button class="btn btn-ink" type="submit">Send and book my chat</button>
+      <p class="form-status" role="status" aria-live="polite" hidden></p>
     </form>
   </div></div>
 </section>
@@ -153,5 +158,39 @@
     <p class="copyright">© 2026 TigerPaw.</p>
   </div></div>
 </footer>
+<script>
+(function(){
+  var form = document.getElementById('contact-form');
+  var status = form.querySelector('.form-status');
+  var button = form.querySelector('button[type="submit"]');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    button.disabled = true;
+    button.textContent = 'Sending...';
+    status.hidden = true;
+    status.className = 'form-status';
+    fetch(form.action.replace('formsubmit.co/', 'formsubmit.co/ajax/'), {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form)
+    }).then(function(res){ return res.json().then(function(data){ return { ok: res.ok, data: data }; }); })
+      .then(function(r){
+        if (!r.ok || r.data.success === 'false' || r.data.success === false) throw new Error(r.data.message);
+        form.reset();
+        status.textContent = "Thanks! We've got your message and will be in touch within one business day.";
+        status.classList.add('ok');
+      })
+      .catch(function(){
+        status.textContent = 'Sorry, something went wrong. Please try again, or email us at shawais@gmail.com.';
+        status.classList.add('err');
+      })
+      .then(function(){
+        status.hidden = false;
+        button.disabled = false;
+        button.textContent = 'Send and book my chat';
+      });
+  });
+})();
+</script>
 </body>
 </html>

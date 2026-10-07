@@ -3,9 +3,10 @@
 Static HTML/CSS site: homepage, seven service pages and a 404 page.
 
 ## Before you deploy
-1. Create a free form at https://formspree.io (sign up with the email that should receive enquiries).
-2. Copy your form ID (it looks like `xayzabcd`).
-3. In `index.html`, replace `YOUR_FORM_ID` in the form's `action` with your ID.
+The "Book a free chat" form in `index.html` sends enquiries to shawais@gmail.com via https://formsubmit.co (free, no account).
+1. After deploying, submit the form once yourself. FormSubmit emails shawais@gmail.com an activation link; click it. Enquiries are only delivered after activation.
+2. Optional: the activation email includes a random alias. Replace `shawais@gmail.com` in the form's `action` with that alias to keep the address out of the page source.
+3. To change the receiving address, edit the form's `action` URL (and re-activate).
 
 ## Deploy to AWS Amplify (no Git needed)
 1. AWS Console > Amplify > Create new app > Deploy without Git.
