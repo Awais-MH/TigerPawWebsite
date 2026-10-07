@@ -130,7 +130,7 @@
       <p style="margin-top:20px">Tell us a little about your business and what's taking up your time. We'll get back to you within one business day to find a time that suits.</p>
       <p class="small">No obligation and no sales pitch. If AI isn't a good fit for you yet, we'll tell you.</p>
     </div>
-    <form class="form" id="contact-form" action="https://formsubmit.co/shawais@gmail.com" method="POST">
+    <form class="form" id="contact-form" action="https://formsubmit.co/info@tigerpaw.com.au" method="POST">
       <input type="hidden" name="_subject" value="New free chat booking - TigerPaw website">
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
@@ -180,8 +180,9 @@
         status.textContent = "Thanks! We've got your message and will be in touch within one business day.";
         status.classList.add('ok');
       })
-      .catch(function(){
-        status.textContent = 'Sorry, something went wrong. Please try again, or email us at shawais@gmail.com.';
+      .catch(function(err){
+        if (err && err.message) console.error('Form submission failed:', err.message);
+        status.textContent = 'Sorry, something went wrong' + (err && err.message ? ' (' + err.message + ')' : '') + '. Please try again, or email us at info@tigerpaw.com.au.';
         status.classList.add('err');
       })
       .then(function(){

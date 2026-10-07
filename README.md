@@ -3,9 +3,9 @@
 Static HTML/CSS site: homepage, seven service pages and a 404 page.
 
 ## Before you deploy
-The "Book a free chat" form in `index.html` sends enquiries to shawais@gmail.com via https://formsubmit.co (free, no account).
-1. After deploying, submit the form once yourself. FormSubmit emails shawais@gmail.com an activation link; click it. Enquiries are only delivered after activation.
-2. Optional: the activation email includes a random alias. Replace `shawais@gmail.com` in the form's `action` with that alias to keep the address out of the page source.
+The "Book a free chat" form in `index.html` sends enquiries to info@tigerpaw.com.au via https://formsubmit.co (free, no account).
+1. After deploying, submit the form once yourself. FormSubmit emails info@tigerpaw.com.au an activation link; click it. Enquiries are only delivered after activation.
+2. Optional: the activation email includes a random alias. Replace `info@tigerpaw.com.au` in the form's `action` with that alias to keep the address out of the page source.
 3. To change the receiving address, edit the form's `action` URL (and re-activate).
 
 ## Deploy to AWS Amplify (no Git needed)
