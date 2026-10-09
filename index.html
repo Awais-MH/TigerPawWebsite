@@ -19,6 +19,7 @@
     <a class="logo" href="index.html"><svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="14" fill="#FFD2B3"/><path d="M14 8c8 10 4 22 12 30-2-12 6-18 2-30z M30 8c8 12 2 24 10 34-1-14 7-20 3-34z M46 8c6 10 2 20 8 28 0-10 4-16 1-28z" fill="#1F2433"/></svg><span>TigerPaw</span></a>
     <ul class="nav-links">
       <li><a href="index.html#services">Services</a></li>
+      <li><a href="index.html#projects">Projects</a></li>
       <li><a href="index.html#how">How it works</a></li>
       <li><a href="index.html#about">About</a></li>
     </ul>
@@ -99,6 +100,35 @@
   </div></div>
 </section>
 
+<section id="projects">
+  <div class="wrap"><div class="panel">
+    <h2>Projects</h2>
+    <p class="muted" style="margin-top:16px">Community and personal projects we're building with AI. Want to help, test or partner with us? Get in touch.</p>
+    <ul class="proj-grid">
+      <li class="proj-card">
+        <h3>Cost of Living</h3>
+        <p>An AI-powered tool that tracks everyday household expenses and highlights where costs are rising. It turns scattered prices and bills into clear, practical insights so families can budget with confidence.</p>
+        <a class="btn btn-line" href="#contact" data-project="Cost of Living">Get involved</a>
+      </li>
+      <li class="proj-card">
+        <h3>Property Buyer</h3>
+        <p>A smart assistant that helps buyers compare suburbs, prices and investment potential in one place. It cuts through the noise of listings and data to support faster, better-informed property decisions.</p>
+        <a class="btn btn-line" href="#contact" data-project="Property Buyer">Get involved</a>
+      </li>
+      <li class="proj-card">
+        <h3>Road of Remembrance</h3>
+        <p>A digital memorial project that brings the stories behind commemorated service members to life. It combines historical records with an engaging, easy-to-explore experience to honour their legacy.</p>
+        <a class="btn btn-line" href="#contact" data-project="Road of Remembrance">Get involved</a>
+      </li>
+      <li class="proj-card">
+        <h3>Job Seeking for Teenagers</h3>
+        <p>A friendly guide that helps teenagers find their first job, from writing a simple résumé to preparing for interviews. It builds confidence and makes the first step into work less daunting.</p>
+        <a class="btn btn-line" href="#contact" data-project="Job Seeking for Teenagers">Get involved</a>
+      </li>
+    </ul>
+  </div></div>
+</section>
+
 <section id="how">
   <div class="wrap"><div class="panel">
     <h2>Simple, fixed-price, no jargon</h2>
@@ -135,6 +165,8 @@
       <input type="hidden" name="_template" value="table">
       <input type="hidden" name="_captcha" value="false">
       <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
+      <input type="hidden" name="project" value="">
+      <p class="form-regarding" hidden><span>Regarding the <b></b> project</span><button type="button" aria-label="Clear project">×</button></p>
       <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required></div>
       <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required></div>
       <div class="field"><label for="phone">Phone (optional)</label><input id="phone" name="phone" type="tel" autocomplete="tel"></div>
@@ -163,6 +195,38 @@
   var form = document.getElementById('contact-form');
   var status = form.querySelector('.form-status');
   var button = form.querySelector('button[type="submit"]');
+  var subject = form.querySelector('[name="_subject"]');
+  var project = form.querySelector('[name="project"]');
+  var regarding = form.querySelector('.form-regarding');
+  var business = form.querySelector('#business');
+  var businessLabel = form.querySelector('label[for="business"]');
+  var messageLabel = form.querySelector('label[for="message"]');
+  var defaults = {
+    subject: subject.value,
+    button: button.textContent,
+    business: businessLabel.textContent,
+    message: messageLabel.textContent
+  };
+
+  function setProject(name){
+    project.value = name || '';
+    regarding.hidden = !name;
+    regarding.querySelector('b').textContent = name || '';
+    subject.value = name ? 'Get involved: ' + name + ' - TigerPaw website' : defaults.subject;
+    business.required = !name;
+    businessLabel.textContent = name ? 'Business or organisation (optional)' : defaults.business;
+    messageLabel.textContent = name ? 'How would you like to get involved?' : defaults.message;
+    button.textContent = name ? 'Send and get involved' : defaults.button;
+  }
+
+  document.querySelectorAll('[data-project]').forEach(function(link){
+    link.addEventListener('click', function(){ setProject(link.getAttribute('data-project')); });
+  });
+  document.querySelectorAll('a[href$="#contact"]:not([data-project])').forEach(function(link){
+    link.addEventListener('click', function(){ setProject(''); });
+  });
+  regarding.querySelector('button').addEventListener('click', function(){ setProject(''); });
+
   form.addEventListener('submit', function(e){
     e.preventDefault();
     button.disabled = true;
@@ -177,6 +241,7 @@
       .then(function(r){
         if (!r.ok || r.data.success === 'false' || r.data.success === false) throw new Error(r.data.message);
         form.reset();
+        setProject('');
         status.textContent = "Thanks! We've got your message and will be in touch within one business day.";
         status.classList.add('ok');
       })
@@ -188,7 +253,7 @@
       .then(function(){
         status.hidden = false;
         button.disabled = false;
-        button.textContent = 'Send and book my chat';
+        button.textContent = project.value ? 'Send and get involved' : defaults.button;
       });
   });
 })();
